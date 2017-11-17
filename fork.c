@@ -6,6 +6,10 @@
 int main() {
     printf("PARENT PID: %d\n", getpid());
     printf("Forking\n");
+    srand(time(NULL));
+    int num1 = rand() % 15 + 5;
+    int num2 = rand() % 15 + 5;
+    //printf("t1: %d\t t2: %d\n", num1, num2);
     int child1 = fork();
     int child2 = 0;
     if (child1 != 0) {
@@ -22,11 +26,17 @@ int main() {
         return 0;
     } else {
         printf("Child PID: %d\n", getpid());
-        srand(time(NULL));
-        int num = rand() % 15 + 5;
-        sleep(num);
-        printf("Child finished!\n");
-        return num;
+	if (child1 == child2) {
+	  sleep(num1);
+	  printf("Child %d finished!\n", getpid());
+	  return num1;
+	}
+	else {
+	  sleep(num2);
+	  printf("Child %d finished!\n", getpid());
+	  return num2;
+	}
+
     }
     return 0;
 }
